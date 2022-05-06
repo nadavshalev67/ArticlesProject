@@ -15,7 +15,7 @@ class FilterSettings private constructor(val filters: MutableList<FilterBase<*>>
     fun toJsonObject(): JSONObject {
         val result = JSONObject()
         filters.forEach {
-            result.put(it.getFilterType().name, it.value.toString())
+            result.put(it.value.key, it.value.valueToString())
         }
         return result
     }

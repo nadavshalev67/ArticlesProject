@@ -8,10 +8,12 @@ import com.work.articles.logic.Utils.safeLet
 import com.work.articles.logic.Utils.toSettings
 import com.work.articles.logic.filters.FactoryFilter
 import com.work.articles.logic.filters.base.FilterType
-import com.work.articles.logic.filters.custom.DateWrapper
 import com.work.articles.model.FilterSettings
 import com.work.articles.model.ServerArticle
 import com.work.articles.repository.ArticlesRepository
+import com.work.articles.settings.customkeyvalue.DateKeyValue
+import com.work.articles.settings.customkeyvalue.DateWrapper
+import com.work.articles.settings.customkeyvalue.StringKeyValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -69,12 +71,11 @@ class DataViewModel @Inject constructor(private val articlesRepository: Articles
         topic: String,
         title: String
     ) = viewModelScope.launch(Dispatchers.IO) {
-        val dateFilter = FactoryFilter.createFilter(FilterType.DateFilterType, dateWrapper)
-        val titleFilter = FactoryFilter.createFilter(FilterType.TitleFilterType, title)
-        val topicFilter = FactoryFilter.createFilter(FilterType.TopicFilterType, topic)
-        safeLet(dateFilter, topicFilter, titleFilter) { dateFilter, topicFilter, titleFitler ->
-            val settings =
-                FilterSettings.Builder().putFilterType(dateFilter).putFilterType(topicFilter)
+        val dateFilter = FactoryFilter.createFilter(FilterType.DateFilterType, DateKeyValue(FilterType.DateFilterType, dateWrapper))
+        val titleFilter = FactoryFilter.createFilter(FilterType.TitleFilterType,StringKeyValue(FilterType.TitleFilterType,title))
+        val topicFilter = FactoryFilter.createFilter(FilterType.TitleFilterType,StringKeyValue(FilterType.TopicFilterType,topic))
+        safeLet(dateFilter, topicFilter, titleFilter) { dateFilter, topicFilter, titleFitler -> val settings =
+            FilterSettings.Builder().putFilterType(dateFilter).putFilterType(topicFilter)
                     .putFilterType(titleFitler).build()
             articlesRepository.saveSettings(settings)
             fetchArticles(settings)

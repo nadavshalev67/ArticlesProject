@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.work.articles.databinding.FragmentSettingsBinding
 import com.work.articles.logic.Constants
-import com.work.articles.logic.filters.custom.DateWrapper
+import com.work.articles.settings.customkeyvalue.DateWrapper
 
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate) {

@@ -3,6 +3,7 @@ package com.work.articles.logic
 import com.work.articles.logic.filters.FactoryFilter
 import com.work.articles.logic.filters.base.FilterType
 import com.work.articles.model.FilterSettings
+import com.work.articles.settings.BaseKeyValueCustom
 import org.json.JSONObject
 
 object Utils {
@@ -18,9 +19,9 @@ object Utils {
     fun JSONObject.toSettings(): FilterSettings {
         val settingsBuilder = FilterSettings.Builder()
         this.keys().forEach { key ->
-            FilterType.retriveCacheFilterKey(key)?.also { filterType ->
-                FilterType.retriveCacheFilterValue(filterType, this.optString(key))
-                    ?.also { value ->
+            FilterType.getFilterTypeByKey(key)?.also { filterType ->
+                BaseKeyValueCustom.createKeyValueByFilterType(filterType, this.optString(key))
+                    .also { value ->
                         FactoryFilter.createFilter(filterType, value)?.let {
                             settingsBuilder.putFilterType(it)
                         }

@@ -1,6 +1,6 @@
 package com.work.articles.logic.filters.base
 
-import com.work.articles.logic.filters.custom.DateWrapper
+import com.work.articles.settings.BaseKeyValueCustom
 
 
 sealed class FilterType(val name: String) {
@@ -8,16 +8,9 @@ sealed class FilterType(val name: String) {
     object TitleFilterType : FilterType("Title")
     object DateFilterType : FilterType("DateFilter")
 
-    companion object {
-        fun retriveCacheFilterValue(key: FilterType, value: String): Any? {
-            return when (key) {
-                TopicFilterType, TitleFilterType -> value
-                DateFilterType -> DateWrapper.fromString(value)
-            }
-            return null
-        }
 
-        fun retriveCacheFilterKey(key: String): FilterType? {
+    companion object {
+        fun getFilterTypeByKey(key: String): FilterType? {
             when (key) {
                 TopicFilterType.name -> return TopicFilterType
                 TitleFilterType.name -> return TitleFilterType
@@ -25,13 +18,9 @@ sealed class FilterType(val name: String) {
             }
             return null
         }
-
-
     }
-
-
 }
 
-abstract class FilterBase<T>(val value: T) : FilterArticle<T> {
+abstract class FilterBase<T : BaseKeyValueCustom<*>>(val value: T) : FilterArticle {
     abstract fun getFilterType(): FilterType
 }
