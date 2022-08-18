@@ -2,7 +2,7 @@ name: Build RC
 on:
   workflow_dispatch:
     inputs:
-      flavor:
+      Flavor:
         type: choice
         description: 'Flavor'
         required: true
@@ -18,7 +18,7 @@ on:
           - Sign
           - Unsign
           - Sign And Unsign
-      versionName:
+      Version_Number:
         description: 'Version Number'
         required: true
 
@@ -28,14 +28,16 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Runs a single command using the runners shell
-      - name: Send greeting
-        run: echo “Hello ${{ github.event.inputs.flavor }}”
-      - name: Checkout the code
-        uses: actions/checkout@v2
-      - name: Create Release Branch
-        run: git checkout -b release/v${{ github.event.inputs.versionName }}
-      - name: Push new branch
-        run: git push origin release/v${{ github.event.inputs.versionName }}
+      - name: Echo flavor
+        run: echo “Hello ${{ github.event.inputs.Flavor }}”
+      - name: Echo Singing
+        run: echo “Hello ${{ github.event.inputs.Singing }}”
+      - name: Echo Version number
+        run: echo “Hello ${{ github.event.inputs.Version_Number }}”
+
+
+#      - name: Checkout the code
+#        uses: actions/checkout@v2
 #      - name: buildTmo
 #        run: ./gradlew app:assembleTmobileProductionRelease
 #        if: ${{github.event.inputs.flavor == ‘Metrozone’}}
