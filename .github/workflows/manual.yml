@@ -1,26 +1,17 @@
-# This is a basic workflow that is manually triggered
 name: Build RC
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
   workflow_dispatch:
-    # Inputs the workflow accepts.
     inputs:
       flavor:
         type: choice
-        # Friendly description to be shown in the UI instead of ‘name’
-        description: ‘Flavor’
-        # Input has to be provided for the workflow to run
+        description: 'Flavor'
         required: true
         options:
           - Generic
           - Boost
-          - Metrozone
+          - Tmobile
       versionName:
-        description: ‘Name of version  (ie 5.5.0)’
-        required: true
-      versionCode:
-        description: ‘Version number (50500)’
+        description: 'Version Number'
         required: true
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
